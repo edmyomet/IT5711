@@ -26,7 +26,7 @@ void encrypt_h(HILL_CIPHER);
 void decrypt_h(HILL_CIPHER);
 VECTOR alloc_v(VECTOR,MATRIX,SIZE);
 PTR_I_ alloc_r(PTR_I_, SIZE);
-void prints(MATRIX,VECTOR);
+void prints(MATRIX,VECTOR,SIZE);
 #endif
 
 
@@ -43,8 +43,8 @@ HILL_CIPHER createHCipher(STRING str){
     H->plain_text_s[strlen(str)] = '\0';
     halloc(H,0);
     halloc(H,1);
-    //editKey_m(H);
-    //editVect_m(H);
+    editKey_m(H);
+    editVect_m(H);
     return H;
 }
 
@@ -93,13 +93,26 @@ PTR_I_ alloc_r(PTR_I_ R, SIZE n){
 
 
 void editKey_m(HILL_CIPHER H){
+    int value;
     for(int i=0;i<H->row_size;i++){
+        //printf("Enter %dth row of key matrix",i);
         for(int j=0;j<H->col_size;j++){
-            //do nothing
+            //scanf("%d",&value);
+            H->key[i][j] = (rand()%26) + 65;
+            printf("%d\t", H->key[i][i]);
         }
+        printf("\n");
     }
 }
 
+void editVect_m(HILL_CIPHER H){
+    for(int i=0;i<H->v_len;i++){
+        for(int j=0;j<H->col_size;j++){
+            H->plain_text_v[i][j] = (int)H->plain_text_s[i];
+            H->cipher_text_v[i][j] = 0;
+        }
+    }
+}
 
 BOOL isNull_v(VECTOR V, MATRIX M){
     return (V==NULL) && (M==NULL);
@@ -107,4 +120,25 @@ BOOL isNull_v(VECTOR V, MATRIX M){
 
 BOOL isVoid(HILL_CIPHER H){
     return H == NULL;
+}
+
+void encrypt_h(HILL_CIPHER H){
+    for(int i=0;i<H->v_len;i++){
+        for(int j=0;j<H->col_size;j++){
+            for(int k=0;k<H->row_size;k++){
+                H->cipher_text_v[i][j] += H->plain_text_v[i][k] * H->key[k][j];
+            }
+        }
+    }
+}
+
+void prints(MATRIX M, VECTOR V,SIZE K){
+    char placeHolder;
+    if(isNull_v(NULL, M)){
+        for(int i=0;i<K;i++){
+            //placeHolder = '0' + (V[0][i] % 26);
+            printf("%c\t",'0' +V[0][i]%26 + 65);
+        }
+        printf("\n");
+    }
 }

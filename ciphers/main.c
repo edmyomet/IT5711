@@ -1,6 +1,5 @@
 #include "caesercipher.h"
 #include "hillcipher.h"
-#include "affinecipher.h"
 #include "transpcipher.h"
 
 
@@ -13,5 +12,10 @@ int main(int argc, char**argv){
    decrypt(C);
      printf("%s\n", retrieveDecrypt(C));
      freeCipher(C);
-    HILL_CIPHER H = createHCipher("NEELABH");
+    HILL_CIPHER H = createHCipher("XYZ");
+    encrypt_h(H);
+    prints(NULL,H->cipher_text_v,H->col_size);
+    TR_CIPHER T = createTCipher(3, "SHRUTHI");
+    encrypt_t(T);
+    //prints_t(T);
 }
