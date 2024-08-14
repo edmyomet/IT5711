@@ -17,7 +17,8 @@ TR_CIPHER createTCipher(KEY_TYPE,STRING);
 BOOL isNull_t(TR_CIPHER);
 void talloc(TR_CIPHER);
 void editKey_t(TR_CIPHER);
-void encrypt_t(TR_CIPHER);
+void getEncrypiont_t(TR_CIPHER);
+void decrypt_t(TR_CIPHER);
 #endif 
 
 
@@ -33,6 +34,7 @@ TR_CIPHER createTCipher(KEY_TYPE depth, STRING str){
     T->col_size = strlen(str);
     talloc(T);
     editKey_t(T);
+    return T;
 }
 
 BOOL isNull_t(TR_CIPHER T){
@@ -46,6 +48,7 @@ void talloc(TR_CIPHER T){
             if(!T->encrypted[i])
                 FatalError("Out of Memory");
     }
+    T->decrypted = (STRING)malloc(sizeof(char)*strlen(T->plain_text));
 }
 
 void editKey_t(TR_CIPHER T){
@@ -60,12 +63,17 @@ void editKey_t(TR_CIPHER T){
 void encrypt_t(TR_CIPHER T){
     if(isNull_t(T))
         FatalError("Uninitialised Cipher");
-    printf("%d",T->encrypted[0][0]);    
+    int count=0,i=0,j=0;
+    while(count < T->col_size){
+        if(i<T->depth)
+            T->encrypted[i++][j] = T->plain_text[count++];
+        else i=0,j++;
+    }  
 
 }
 
 
-void prints_t(TR_CIPHER T){
+void getEncryption_t(TR_CIPHER T){
     if(isNull_t(T))
         FatalError("Uninitialised Cipher");
     for(int i=0;i<T->depth;i++){
@@ -73,5 +81,22 @@ void prints_t(TR_CIPHER T){
             printf("%d\t",T->encrypted[i][j]);
         }
         printf("\n");
+    }
+}
+
+STRING getDecrypted_t(TR_CIPHER T){
+    return T->decrypted;
+}
+
+void decrypt_t(TR_CIPHER T){
+    if(isNull_t(T))
+        Warning("Uninitialised Cipher");
+    int count = 0;
+    for(int i=0;i<T->depth;i++){
+        for(int j=0;j<T->col_size;j++){
+            if(T->encrypted[i][j] != -1){
+                T->decrypted[count++] = T->encrypted[i][j];
+            }
+        }
     }
 }

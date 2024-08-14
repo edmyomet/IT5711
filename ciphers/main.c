@@ -17,5 +17,7 @@ int main(int argc, char**argv){
     prints(NULL,H->cipher_text_v,H->col_size);
     TR_CIPHER T = createTCipher(3, "SHRUTHI");
     encrypt_t(T);
-    //prints_t(T);
+    getEncryption_t(T);
+    decrypt_t(T);
+    Print(getDecrypted_t(T));
 }
