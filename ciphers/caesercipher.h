@@ -92,6 +92,9 @@ void editPlainText(STRING str, CAESER_CIPHER C){
 void freeCipher(CAESER_CIPHER C){
     if(isEmpty(C))
         Warning("Cannot free an empty cipher");
+    free(C->cipher_text);
+    free(C->decrypted_text);
+    free(C->plain_text);
     free(C);
 }
 

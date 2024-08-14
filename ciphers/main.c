@@ -5,9 +5,13 @@
 
 
 int main(int argc, char**argv){
-    CAESER_CIPHER C = createCipher("SHRUTHI");
+    STRING name = (STRING)malloc(sizeof(char)*20);
+    scanf("%s",name);
+    CAESER_CIPHER C = createCipher(name);
     encrypt(C);
    printf("%s\n", retrieveCipherText(C));
    decrypt(C);
      printf("%s\n", retrieveDecrypt(C));
+     freeCipher(C);
+    HILL_CIPHER H = createHCipher("NEELABH");
 }
