@@ -1,4 +1,5 @@
 #include "err.h"
+#define __MODULAR_INVERSE_CONSTANT  (1)
 
 typedef struct ACipher* AF_CIPHER;
 typedef struct ACipher* APTR;
@@ -19,9 +20,11 @@ struct ACipher{
 AF_CIPHER createACipher(STRING,KEY_TYPE, KEY_TYPE);
 BOOL isVoid_a(AF_CIPHER);
 void stralloc(AF_CIPHER);
-void editKey(AF_CIPHER,KEY_TYPE);
+void editKey_a(AF_CIPHER,KEY_TYPE);
 void encrypt_a(AF_CIPHER);
 void decrypt_a(AF_CIPHER);
+void getEncrypted_a(AF_CIPHER);
+void getDecrypted_a(AF_CIPHER);
 #endif
 
 
@@ -53,10 +56,38 @@ void encrypt_a(AF_CIPHER A){
     for(int i=0;i<A->str_size;i++){
         placeHolder = (int)A->plain_text[i]-65;
         placeHolder = (placeHolder*A->a) + A->b;
-        placeHolder = (placeHolder + 65)%26;
+        placeHolder = (placeHolder%26);
+        A->cipher_text[i] = 65+placeHolder;
     }
 }
 
 KEY_TYPE findInverse(KEY_TYPE a){
-    return 
+    int tmp,i,check; //placeholder for A*B values
+    for(i=0;i<=26;i++){
+        if((a*i)%26 == __MODULAR_INVERSE_CONSTANT)
+            check = i;
+    }
+    PrintInteger(check);
+    return check;
+}
+
+void decrypt_a(AF_CIPHER A){
+    A->inv_a = findInverse(A->a);
+    int placeHolder;
+    for(int i=0;i<A->str_size;i++){
+        placeHolder = (A->cipher_text[i]-65)%26;
+        placeHolder = ((placeHolder-A->b) * A->inv_a)%26;
+        A->decrypted_text[i] = 65 + placeHolder;
+    }
+}
+void editKey_a(AF_CIPHER A, KEY_TYPE b){
+
+}
+
+void getEncrypted_a(AF_CIPHER A){
+    Print(A->cipher_text);
+}
+
+void getDecrypted_a(AF_CIPHER A){
+    Print(A->decrypted_text);
 }

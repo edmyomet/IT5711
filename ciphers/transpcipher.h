@@ -85,6 +85,8 @@ void getEncryption_t(TR_CIPHER T){
 }
 
 STRING getDecrypted_t(TR_CIPHER T){
+    if(isNull_t(T))
+        FatalError("Uninitialised Cipher.");
     return T->decrypted;
 }
 

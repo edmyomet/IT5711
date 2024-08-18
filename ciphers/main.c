@@ -1,7 +1,7 @@
 #include "caesercipher.h"
 #include "hillcipher.h"
 #include "transpcipher.h"
-
+#include "affine.h"
 
 int main(int argc, char**argv){
     STRING name = (STRING)malloc(sizeof(char)*20);
@@ -20,4 +20,9 @@ int main(int argc, char**argv){
     getEncryption_t(T);
     decrypt_t(T);
     Print(getDecrypted_t(T));
+    AF_CIPHER A = createACipher("SHRUTHI", 3,5);
+    encrypt_a(A);
+    getEncrypted_a(A);
+    decrypt_a(A);
+    getDecrypted_a(A);
 }
