@@ -5,6 +5,9 @@ typedef struct HCipher* HPTR;
 struct HCipher{
     STRING plain_text_s;
     MATRIX key;
+    MATRIX key_inverse;
+    MATRIX adj;
+    float determinant;
     VECTOR plain_text_v;
     VECTOR cipher_text_v;
     VECTOR decrypt_text_v;
@@ -27,6 +30,7 @@ void decrypt_h(HILL_CIPHER);
 VECTOR alloc_v(VECTOR,MATRIX,SIZE);
 PTR_I_ alloc_r(PTR_I_, SIZE);
 void prints(MATRIX,VECTOR,SIZE);
+void get_encrypted(HILL_CIPHER);
 #endif
 
 
@@ -131,7 +135,9 @@ void encrypt_h(HILL_CIPHER H){
         }
     }
 }
-
+void get_encrypted(HILL_CIPHER H){
+    
+}
 void prints(MATRIX M, VECTOR V,SIZE K){
     char placeHolder;
     if(isNull_v(NULL, M)){
@@ -142,3 +148,22 @@ void prints(MATRIX M, VECTOR V,SIZE K){
         printf("\n");
     }
 }
+
+
+float findDeterminant(MATRIX M,SIZE row, SIZE col){
+    //finding the determinant of a 3x3 matrix 
+    float det = 0.0;
+    det = M[0][0] *(M[1][1]*M[2][2] - M[1][2]*M[2][1]) - M[0][1]*(M[1][0]*M[2][2]-M[1][2]*M[2][0]) + M[0][2] * (M[0][1]*M[2][1]-M[2][0]*M[1][1]);
+    return det;
+}
+
+MATRIX findAdjoint(MATRIX M, SIZE row, SIZE col){
+    MATRIX cofactor;
+    cofactor = alloc_v(NULL,cofactor,row);
+    for(int i=0;i<row;i++){
+        cofactor[i] = alloc_r(cofactor[i], col);
+    }
+}
+
+
+

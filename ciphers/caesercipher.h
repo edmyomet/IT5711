@@ -45,7 +45,7 @@ CAESER_CIPHER createCipher(STRING s){
     C = (CAESER_CIPHER)malloc(sizeof(struct CCipher));
     if(isEmpty(C))
         FatalError("Out of Memory Space");
-    C->key = 3;
+    scanf("%d", &C->key);
     C->plain_text = (STRING)malloc(sizeof(char)*strlen(s));
     strncpy(C->plain_text, s, strlen(s));
     C->plain_text[strlen(s)] = '\0';

@@ -58,6 +58,7 @@ void encrypt_a(AF_CIPHER A){
         placeHolder = (placeHolder*A->a) + A->b;
         placeHolder = (placeHolder%26);
         A->cipher_text[i] = 65+placeHolder;
+        printf("%c\n", A->cipher_text[i]);
     }
 }
 
@@ -75,8 +76,8 @@ void decrypt_a(AF_CIPHER A){
     A->inv_a = findInverse(A->a);
     int placeHolder;
     for(int i=0;i<A->str_size;i++){
-        placeHolder = (A->cipher_text[i]-65)%26;
-        placeHolder = ((placeHolder-A->b) * A->inv_a)%26;
+        placeHolder = (A->cipher_text[i]-65+26);
+        placeHolder = ((placeHolder-A->b) * A->inv_a +26)%26%26;
         A->decrypted_text[i] = 65 + placeHolder;
     }
 }
